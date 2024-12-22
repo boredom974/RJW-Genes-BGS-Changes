@@ -58,6 +58,25 @@ namespace RJW_BGS
             return genelist;
         }
 
+        /// <summary>
+        /// Looks up all genes for an animal and returns them.
+        /// </summary>
+        /// <param name="pawn">The animal for which to look up genes (Animals are Pawns in RW)</param>
+        /// <returns>The genes that will be inherited from this animal.</returns>
+        public static List<GeneDef> SelectAllGenes(Pawn pawn)
+        {
+            List<GeneDef> genelist = new List<GeneDef>();
+            RaceGeneDef raceGeneDef = RaceGeneDef_Helper.GetRaceGeneDefInternal(pawn);
+            if (raceGeneDef != null)
+            {
+                foreach (BestialityGeneInheritanceDef gene in raceGeneDef.genes)
+                {
+                    genelist.Add(DefDatabase<GeneDef>.GetNamed(gene.defName));
+                }
+            }
+            RJW_Genes.ModLog.Debug($"All {genelist.Count} genes were added from {raceGeneDef.defName}.");
+            return genelist;
+        }
 
         /// <summary>
         /// Adds a list of Genes to the pawns existing GeneSet. 
