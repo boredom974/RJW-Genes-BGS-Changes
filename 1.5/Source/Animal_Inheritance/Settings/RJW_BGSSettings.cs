@@ -25,6 +25,8 @@ namespace RJW_BGS
             listing_Standard.CheckboxLabeled("rjw_genes_animal_inheritance_settings_enabled_key".Translate(), ref rjw_bgs_enabled, "rjw_genes_animal_inheritance_settings_enabled_explanation".Translate(), 0f, 1f);
             //listing_Standard.CheckboxLabeled("sexfrenzy", ref sexfrenzy, "disable the effects", 0f, 1f);
             listing_Standard.Gap(5f);
+            listing_Standard.CheckboxLabeled("rjw_genes_animal_inheritance_vanilla_inheritance_key".Translate(), ref rjw_bgs_vanilla_inheritance, "rjw_genes_animal_inheritance_vanilla_inheritance_explanation".Translate(), 0f, 1f);
+            listing_Standard.Gap(5f);
             listing_Standard.Label("gene inheritance chance"+ ": " + 
                 Math.Round((double)(RJW_BGSSettings.rjw_bgs_global_gene_chance * 100f), 0).ToString() + "%", -1f, "modify chance for a gene to be inherited.");
             RJW_BGSSettings.rjw_bgs_global_gene_chance = listing_Standard.Slider(RJW_BGSSettings.rjw_bgs_global_gene_chance, 0f, 5f);
@@ -36,6 +38,7 @@ namespace RJW_BGS
             listing_Standard.Label("VE Hybrid Chance" + ": " +
                 Math.Round((double)(RJW_BGSSettings.rjw_bgs_ve_genetics_chance * 100f), 0).ToString() + "%", -1f, "modify chance for a bestiality child to be hybrid.");
             RJW_BGSSettings.rjw_bgs_ve_genetics_chance = listing_Standard.Slider(RJW_BGSSettings.rjw_bgs_ve_genetics_chance, 0f, 1f);
+            listing_Standard.End();
         }
 
         public override void ExposeData()
@@ -50,6 +53,7 @@ namespace RJW_BGS
 
         public static float rjw_bgs_global_gene_chance = 1f;
         public static bool rjw_bgs_enabled = true;
+        public static bool rjw_bgs_vanilla_inheritance = false;
         public static bool rjw_bgs_animal_genes_as_xenogenes = false;
         public static bool rjw_bgs_VE_genetics = true;
         public static float rjw_bgs_ve_genetics_chance = 0.25f;
