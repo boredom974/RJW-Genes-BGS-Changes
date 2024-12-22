@@ -4,6 +4,9 @@
     <rjw_genes_animal_inheritance_settings_enabled_key>enabled</rjw_genes_animal_inheritance_settings_enabled_key>
     <rjw_genes_animal_inheritance_settings_enabled_explanation>If toggled, Animal Pregnancies will try inherit genes.</rjw_genes_animal_inheritance_settings_enabled_explanation>
 
+    <rjw_genes_animal_inheritance_vanilla_inheritance_key>vanilla gene inheritance</rjw_genes_animal_inheritance_vanilla_inheritance_key>
+    <rjw_genes_animal_inheritance_vanilla_inheritance_explanation>If toggled, Animal Pregnancies will use the same inheritance logic as normal pregnancies.</rjw_genes_animal_inheritance_vanilla_inheritance_explanation>
+
     <rjw_genes_animal_inheritance_settings_chance_key></rjw_genes_animal_inheritance_settings_chance_key>
     <rjw_genes_animal_inheritance_settings_chance_explanation></rjw_genes_animal_inheritance_settings_chance_explanation>
 
