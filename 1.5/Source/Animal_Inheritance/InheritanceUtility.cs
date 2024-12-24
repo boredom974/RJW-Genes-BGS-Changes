@@ -17,6 +17,8 @@ namespace RJW_BGS
                 return genelist;
             if (mother.RaceProps.Humanlike && father.RaceProps.Humanlike)
                 return genelist;
+			if (RJW_BGSSettings.rjw_bgs_vanilla_inheritance)
+    			return genelist;
 
             RJW_Genes.ModLog.Message($"Trigger an Animal-Gene-Inheritance for {father.Name} and {mother.Name}");
             //One parent must be an animal and the other must be human, so only one needs to return
@@ -33,7 +35,29 @@ namespace RJW_BGS
 
             return genelist;
         }
-
+        
+		public static (Pawn animalParent, bool fatherIsAnimal) CreateAnimalGeneDummy(Pawn father, Pawn mother)
+		{
+    		Pawn animalParent = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist); //can make random xenotype so needs to be stripped of genes.
+    		animalParent.genes.SetXenotype(XenotypeDefOf.Baseliner);
+    		for (int i = animalParent.genes.Endogenes.Count - 1; i >= 0; i--)
+    		{
+        		animalParent.genes.RemoveGene(animalParent.genes.Endogenes[i]);
+    		}
+    		if (!father.RaceProps.Humanlike)
+    		{
+        		RJW_Genes.ModLog.Debug($"Father was found to be animal - looking up genes for {father.Name}, applying them to dummy pawn and returning true.");
+        		InheritanceUtility.AddGenes(animalParent, InheritanceUtility.SelectAllGenes(father));
+        		return (animalParent, true);
+    		}
+    		else
+    		{
+        		RJW_Genes.ModLog.Debug($"Mother was found to be animal - looking up genes for {mother.Name}, applying them to dummy pawn and returning false.");
+        		InheritanceUtility.AddGenes(animalParent, InheritanceUtility.SelectAllGenes(mother));
+        		return (animalParent, false);
+    		}
+		}	
+		
         /// <summary>
         /// Looks up potential genes for an animal, 
         /// checks their chance and returns all 'triggered' genes.
@@ -48,12 +72,17 @@ namespace RJW_BGS
             {
                 foreach (BestialityGeneInheritanceDef gene in raceGeneDef.genes)
                 {
-                    if (gene.chance * RJW_BGSSettings.rjw_bgs_global_gene_chance  >= Rand.Range(0.01f,1f))
+                    if (gene.chance * RJW_BGSSettings.rjw_bgs_global_gene_chance >= Rand.Range(0.01f, 1f))
                     {
-                        genelist.Add(DefDatabase<GeneDef>.GetNamed(gene.defName));
+                        if (gene.defList != null)
+                            foreach (string name in gene.defList)
+                                genelist.Add(DefDatabase<GeneDef>.GetNamed(name));
+                        else
+                            genelist.Add(DefDatabase<GeneDef>.GetNamed(gene.defName));
                     }
                 }
             }
+            genelist = genelist.Distinct().ToList();
             RJW_Genes.ModLog.Debug($"From {raceGeneDef.genes.Count} possible genes in {raceGeneDef.defName}, {genelist.Count} were added by chance ({RJW_BGSSettings.rjw_bgs_global_gene_chance} chance multiplier from Settings).");
             return genelist;
         }
@@ -71,9 +100,14 @@ namespace RJW_BGS
             {
                 foreach (BestialityGeneInheritanceDef gene in raceGeneDef.genes)
                 {
-                    genelist.Add(DefDatabase<GeneDef>.GetNamed(gene.defName));
+                    if (gene.defList != null)
+                        foreach (string name in gene.defList)
+                            genelist.Add(DefDatabase<GeneDef>.GetNamed(name));
+                    else
+                        genelist.Add(DefDatabase<GeneDef>.GetNamed(gene.defName));
                 }
             }
+            genelist = genelist.Distinct().ToList();
             RJW_Genes.ModLog.Debug($"All {genelist.Count} genes were added from {raceGeneDef.defName}.");
             return genelist;
         }
