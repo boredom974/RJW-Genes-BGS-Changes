@@ -13,7 +13,7 @@ namespace RJW_BGS
         {
             List<GeneDef> genelist = new List<GeneDef>();
             //If Both are Humans, or Both are animals, do nothing & return empty GeneList 
-            if (!mother.RaceProps.Humanlike && !father.RaceProps.Humanlike)
+            if (!mother.RaceProps.Humanlike && !father.RaceProps.Humanlike) 
                 return genelist;
             if (mother.RaceProps.Humanlike && father.RaceProps.Humanlike)
                 return genelist;
