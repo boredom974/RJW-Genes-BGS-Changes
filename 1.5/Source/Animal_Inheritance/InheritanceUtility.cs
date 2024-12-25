@@ -19,7 +19,7 @@ namespace RJW_BGS
                 return genelist;
 			if (RJW_BGSSettings.rjw_bgs_vanilla_inheritance)
     			return genelist;
-		
+			return genelist;
 
             RJW_Genes.ModLog.Message($"Trigger an Animal-Gene-Inheritance for {father.Name} and {mother.Name}");
             //One parent must be an animal and the other must be human, so only one needs to return
