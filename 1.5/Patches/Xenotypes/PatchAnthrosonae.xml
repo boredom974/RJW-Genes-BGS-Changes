@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+	<!-- Placeholder pending refactor of genital type genes-->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Anthrosonae</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationAdd">
+					<xpath>
+						Defs/XenotypeDef[defName = "ATK_Anthrowolf" or defName = "ATK_Anthrofox"]/genes
+					</xpath>
+					<value>
+						<li>rjw_genes_canine_genitalia</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>
+						Defs/XenotypeDef[defName = "ATK_Anthrocat"]/genes
+					</xpath>
+					<value>
+						<li>rjw_genes_feline_genitalia</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>
+						Defs/XenotypeDef[defName = "ATK_Anthrocow"]/genes
+					</xpath>
+					<value>
+						<li>rjw_genes_equine_genitalia</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>
+						Defs/XenotypeDef[defName = "ATK_Anthrodrake"]/genes
+					</xpath>
+					<value>
+						<li>rjw_genes_dragon_genitalia</li>
+					</value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
