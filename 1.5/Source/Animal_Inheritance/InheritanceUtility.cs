@@ -17,8 +17,8 @@ namespace RJW_BGS
                 return genelist;
             if (mother.RaceProps.Humanlike && father.RaceProps.Humanlike)
                 return genelist;
-			if (RJW_BGSSettings.rjw_bgs_vanilla_inheritance)
-				return genelist;
+            if (RJW_BGSSettings.rjw_bgs_vanilla_inheritance)
+                return genelist;
 
             RJW_Genes.ModLog.Message($"Trigger an Animal-Gene-Inheritance for {father.Name} and {mother.Name}");
             //One parent must be an animal and the other must be human, so only one needs to return
@@ -35,27 +35,27 @@ namespace RJW_BGS
             return genelist;
         }
         
-		public static (Pawn animalParent, bool fatherIsAnimal) CreateAnimalGeneDummy(Pawn father, Pawn mother)
-		{
-    		Pawn animalParent = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist); //can make random xenotype so needs to be stripped of genes.
-    		animalParent.genes.SetXenotype(XenotypeDefOf.Baseliner);
-    		for (int i = animalParent.genes.Endogenes.Count - 1; i >= 0; i--)
-    		{
-        		animalParent.genes.RemoveGene(animalParent.genes.Endogenes[i]);
-    		}
-    		if (!father.RaceProps.Humanlike)
-    		{
-        		RJW_Genes.ModLog.Debug($"Father was found to be animal - looking up genes for {father.Name}, applying them to dummy pawn and returning true.");
-        		InheritanceUtility.AddGenes(animalParent, InheritanceUtility.SelectAllGenes(father));
-        		return (animalParent, true);
-    		}
-    		else
-    		{
-        		RJW_Genes.ModLog.Debug($"Mother was found to be animal - looking up genes for {mother.Name}, applying them to dummy pawn and returning false.");
-        		InheritanceUtility.AddGenes(animalParent, InheritanceUtility.SelectAllGenes(mother));
-        		return (animalParent, false);
-    		}
-		}	
+        public static (Pawn animalParent, bool fatherIsAnimal) CreateAnimalGeneDummy(Pawn father, Pawn mother)
+        {
+            Pawn animalParent = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist); //can make random xenotype so needs to be stripped of genes.
+            animalParent.genes.SetXenotype(XenotypeDefOf.Baseliner);
+            for (int i = animalParent.genes.Endogenes.Count - 1; i >= 0; i--)
+            {
+                animalParent.genes.RemoveGene(animalParent.genes.Endogenes[i]);
+            }
+            if (!father.RaceProps.Humanlike)
+            {
+                RJW_Genes.ModLog.Debug($"Father was found to be animal - looking up genes for {father.Name}, applying them to dummy pawn and returning true.");
+                InheritanceUtility.AddGenes(animalParent, InheritanceUtility.SelectAllGenes(father));
+                return (animalParent, true);
+            }
+            else
+            {
+                RJW_Genes.ModLog.Debug($"Mother was found to be animal - looking up genes for {mother.Name}, applying them to dummy pawn and returning false.");
+                InheritanceUtility.AddGenes(animalParent, InheritanceUtility.SelectAllGenes(mother));
+                return (animalParent, false);
+            }
+        }
 		
         /// <summary>
         /// Looks up potential genes for an animal, 
