@@ -13,12 +13,12 @@ namespace RJW_BGS
         {
             List<GeneDef> genelist = new List<GeneDef>();
             //If Both are Humans, or Both are animals, do nothing & return empty GeneList 
-            if (!mother.RaceProps.Humanlike && !father.RaceProps.Humanlike) 
+            if (!mother.RaceProps.Humanlike && !father.RaceProps.Humanlike)
                 return genelist;
             if (mother.RaceProps.Humanlike && father.RaceProps.Humanlike)
                 return genelist;
 			if (RJW_BGSSettings.rjw_bgs_vanilla_inheritance)
-    			return genelist;
+				return genelist;
 
             RJW_Genes.ModLog.Message($"Trigger an Animal-Gene-Inheritance for {father.Name} and {mother.Name}");
             //One parent must be an animal and the other must be human, so only one needs to return
