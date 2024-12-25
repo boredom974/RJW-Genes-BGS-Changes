@@ -12,52 +12,26 @@ namespace RJW_BGS
     /// If the settings allow animal gene inheritance, 
     /// the genes are determined and "simply added". 
     /// </summary>
-    [HarmonyPatch(typeof(PregnancyUtility), "GetInheritedGeneSet", new Type[] 
-    { 
-        typeof(Pawn), 
-        typeof(Pawn),
-        //typeof(bool)
-    }
-    )]
+    [HarmonyPatch(typeof(PregnancyUtility))]
     public static class Patch_Vanilla_PregnancyUtility
     {
-        [HarmonyPriority(int.MaxValue)]
-        [HarmonyPrefix]
-        public static void VanillaGeneInheritance(ref Pawn father, ref Pawn mother)
+        [HarmonyPatch("GetInheritedGenes", new Type[] {typeof(Pawn), typeof(Pawn), typeof(Boolean)}, new ArgumentType[] {ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out}), HarmonyPriority(int.MaxValue), HarmonyPrefix]
+        public static void VanillaGenesInheritance(ref Pawn father, ref Pawn mother)
         {
-            if (!RJW_BGSSettings.rjw_bgs_enabled || !RJW_BGSSettings.rjw_bgs_vanilla_inheritance)
+            if (RJW_BGSSettings.rjw_bgs_enabled && RJW_BGSSettings.rjw_bgs_vanilla_inheritance && mother.RaceProps.Humanlike != father.RaceProps.Humanlike)
             {
-                return;
-            }
-
-            if (mother.RaceProps.Humanlike != father.RaceProps.Humanlike)
-            {
-                Pawn animalParent = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist); //can make random xenotype so needs to be stripped of genes. I dont wanna deal with PawnGenerationRequests right now.
-                animalParent.genes.SetXenotype(XenotypeDefOf.Baseliner);
-                for (int i = animalParent.genes.Endogenes.Count - 1; i >= 0; i--)
-                {
-                    animalParent.genes.RemoveGene(animalParent.genes.Endogenes[i]);
-                }
-
-                if (!father.RaceProps.Humanlike)
-                {
-                    RJW_Genes.ModLog.Debug($"Father was found to be animal - looking up genes for {father.Name} and applying them to dummy pawn in his place.");
-                    InheritanceUtility.AddGenes(animalParent, InheritanceUtility.SelectAllGenes(father));
+                (Pawn animalParent, bool fatherIsAnimal) = InheritanceUtility.CreateAnimalGeneDummy(father, mother);
+                if (fatherIsAnimal)
                     father = animalParent;
-                }
                 else
-                {
-                    RJW_Genes.ModLog.Debug($"Mother was found to be animal - looking up genes for {mother.Name} and applying them to dummy pawn in her place.");
-                    InheritanceUtility.AddGenes(animalParent, InheritanceUtility.SelectAllGenes(mother));
                     mother = animalParent;
-                }
             }
         }
         
-        [HarmonyPostfix]
+        [HarmonyPatch("GetInheritedGeneSet", new Type[] {typeof(Pawn), typeof(Pawn)}), HarmonyPostfix]
         public static void AnimalInheritedGenes(Pawn father, Pawn mother, ref GeneSet __result)
         {
-            if (!RJW_BGSSettings.rjw_bgs_enabled)
+            if (!RJW_BGSSettings.rjw_bgs_enabled || RJW_BGSSettings.rjw_bgs_vanilla_inheritance)
             {
                 return;
             }
