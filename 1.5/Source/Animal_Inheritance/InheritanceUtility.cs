@@ -32,7 +32,6 @@ namespace RJW_BGS
                 RJW_Genes.ModLog.Debug($"Mother was found to be animal - looking up genes for {mother.Name}");
                 return SelectGenes(mother);
             }
-
             return genelist;
         }
         
