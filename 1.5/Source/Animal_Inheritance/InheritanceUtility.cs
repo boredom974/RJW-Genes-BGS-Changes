@@ -9,7 +9,7 @@ namespace RJW_BGS
 {
     public class InheritanceUtility
     {
-        public static List<GeneDef> AnimalInheritedGenes(Pawn father, Pawn mother)a
+        public static List<GeneDef> AnimalInheritedGenes(Pawn father, Pawn mother)
         {
             List<GeneDef> genelist = new List<GeneDef>();
             //If Both are Humans, or Both are animals, do nothing & return empty GeneList 
