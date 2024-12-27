@@ -1,4 +1,6 @@
-﻿namespace RJW_BGS
+using System.Collections.Generic;
+
+namespace RJW_BGS
 {
     public class BestialityGeneInheritanceDef
     {
